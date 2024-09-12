@@ -30,7 +30,6 @@ while True:
     # Отображаем кадр с красным крестом
     cv2.imshow('Camera with Red Cross', frame)
 
-    # Нажмите 'q' для выхода
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 

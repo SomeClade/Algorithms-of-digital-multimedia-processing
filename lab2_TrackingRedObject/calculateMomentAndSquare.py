@@ -30,20 +30,8 @@ def get_color_mask(hsv_frame, color):
         upper_green = np.array([90, 255, 255])
         return cv2.inRange(hsv_frame, lower_green, upper_green)
 
-    elif color =='black':
-        lower_black = np.array([0, 0, 0])
-        upper_black = np.array([180, 255, 50])
-        return cv2.inRange(hsv_frame, lower_black, upper_black)
-    elif color == 'white':
-        lower_white = np.array([255, 255, 255])
-        upper_white = np.array([255, 255, 255])
-
     else:
         return np.zeros_like(hsv_frame[:, :, 0])  # Возвращаем пустую маску
-
-    '''
-     cv2.inRange() выделяет пиксели, попадающие в определённый диапазон цветовых 
-     '''
 
 
 # Открытие камеры
@@ -68,11 +56,24 @@ while True:
     # Получаем маску для выбранного цвета
     color_mask = get_color_mask(hsv_frame, selected_color)
 
-    # Наложение маски на изображение
-    color_output = cv2.bitwise_and(frame, frame, mask=color_mask)
+    # Находим моменты изображения
+    moments = cv2.moments(color_mask)
 
-    cv2.imshow('Original Image', frame)
-    cv2.imshow(f'{selected_color.capitalize()} Object Image', color_output)
+    # Площадь объекта (момент m00)
+    area = moments['m00']
+
+    # Если площадь объекта больше порогового значения (для исключения шумов)
+    if area > 1000:
+        # Вычисляем координаты центра масс объекта
+        cx = int(moments['m10'] / moments['m00'])
+        cy = int(moments['m01'] / moments['m00'])
+
+        # Отображаем центр объекта и его площадь
+        cv2.circle(frame, (cx, cy), 5, (0, 0, 0), -1)  # Рисуем центр массы
+        cv2.putText(frame, f"Area: {int(area)}", (cx - 50, cy - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
+
+    # Отображение исходного изображения с центром объекта
+    cv2.imshow('Original Image with Object Moments', frame)
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
@@ -83,8 +84,6 @@ while True:
         selected_color = 'green'
     elif key == ord('b'):
         selected_color = 'blue'
-    elif key == ord('k'):
-        selected_color = 'black'
 
 # Освобождение ресурсов
 cap.release()
