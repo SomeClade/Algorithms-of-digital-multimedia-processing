@@ -23,7 +23,6 @@ for ext in extensions:
             cv2.imshow('Image', img)  # Выводим изображение
             cv2.imshow('Image', img)
             print(f"Открыто изображение {filename} с флагом чтения {read_flag} и флагом окна {window_flag}")
-            resizedImage= cv2.resize(img, (400,300))
-            cv2.imshow('Image', resizedImage) #ресайз изображения
+            cv2.imshow('Image', img) #ресайз изображения
             cv2.waitKey(0)
             cv2.destroyAllWindows()

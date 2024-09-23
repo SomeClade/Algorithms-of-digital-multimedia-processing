@@ -1,6 +1,7 @@
 import cv2
+import numpy as np
 
-# открываем камеру, где 0 камера по умолчанию
+# Открываем камеру
 cap = cv2.VideoCapture(0)
 
 if not cap.isOpened():
@@ -8,7 +9,7 @@ if not cap.isOpened():
     exit()
 
 while True:
-    # захват кадра пока работаем
+    # Захватываем кадр
     ret, frame = cap.read()
 
     if not ret:
@@ -20,15 +21,22 @@ while True:
 
     # Считаем центр изображения
     center_x, center_y = width // 2, height // 2
+    radius = 50  # Радиус окружности, на которой будут расположены вершины пентаграммы
 
-    # горизонтальная линия в 2 пикселя красная
-    cv2.line(frame, (center_x - 50, center_y), (center_x + 50, center_y), (0, 0, 255), 2)
+    # Вычисляем координаты вершин пентаграммы
+    points = []
+    for i in range(5):
+        angle = 2 * np.pi * i / 5 - np.pi / 2  # Угол для каждой вершины
+        x = int(center_x + radius * np.cos(angle))
+        y = int(center_y + radius * np.sin(angle))
+        points.append((x, y))
 
-    # вертикальная линия в 2 пикселя красная
-    cv2.line(frame, (center_x, center_y - 50), (center_x, center_y + 50), (0, 0, 255), 2)
+    # Соединяем вершины линиями для создания пентаграммы
+    for i in range(5):
+        cv2.line(frame, points[i], points[(i + 2) % 5], (0, 0, 255), 2)  # Соединяем через одну вершину
 
-    # Отображаем кадр с красным крестом
-    cv2.imshow('Camera with Red Cross', frame)
+    # Отображаем кадр с пентаграммой
+    cv2.imshow('Camera with Pentagram', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

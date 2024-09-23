@@ -20,10 +20,10 @@ while True:
     # Определяем координаты центра
     center_x, center_y = width // 2, height // 2
 
-    # Получаем центральный пиксель (формат BGR)
+    # Получаем центральный пиксель (формат RGB)
     center_pixel = frame[center_y, center_x]
 
-    # Извлекаем значения цветовых каналов BGR
+    # Извлекаем значения цветовых каналов RGB
     blue, green, red = center_pixel
 
     # Определяем цвета

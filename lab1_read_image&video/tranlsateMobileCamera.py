@@ -2,7 +2,7 @@ import cv2
 
 # video_url = 'https://public.ivideon.com/camera/100-F7h5IwKKjv5VrKQzFZwgaF/0/?lang=ru'
 
-video_url = "https://212.192.149.207:8080/video"
+video_url = "https://212.192.145.185:8080/video"
 
 cap = cv2.VideoCapture(video_url)
 
