@@ -22,7 +22,7 @@ def apply_morphological_transformations(mask):
     return mask
 
 
-
+# Функция для рисования прицела с затемнением за его пределами
 def thisIsAwp(image, cx, cy):
     # Параметры прицела
     outer_circle_radius = 300  # Радиус внешнего круга
@@ -33,16 +33,25 @@ def thisIsAwp(image, cx, cy):
     tick_spacing = 20  # Расстояние между отметками
     color = (0, 0, 0)  # Цвет прицела (черный)
 
+    # Создаем черную маску того же размера, что и изображение
+    mask = np.zeros_like(image)
+
+    # Рисуем белый круг в области, которая должна остаться видимой
+    cv2.circle(mask, (cx, cy), outer_circle_radius, (255, 255, 255), -1)
+
+    # Накладываем маску на изображение: всё, что вне круга, станет черным
+    masked_image = cv2.bitwise_and(image, mask)
+
     # Рисуем внешнюю окружность прицела
-    cv2.circle(image, (cx, cy), outer_circle_radius, color, line_thickness)
+    cv2.circle(masked_image, (cx, cy), outer_circle_radius, color, line_thickness)
 
     # Рисуем круг в центре
-    cv2.circle(image, (cx, cy), crosshair_radius, color, line_thickness)
+    cv2.circle(masked_image, (cx, cy), crosshair_radius, color, line_thickness)
 
     # Функция для рисования линии с отметками
     def draw_line_with_ticks(start, end, tick_direction):
         # Рисуем основную линию
-        cv2.line(image, start, end, color, line_thickness)
+        cv2.line(masked_image, start, end, color, line_thickness)
 
         # Рисуем отметки на линии
         for i in range(gap + crosshair_radius, outer_circle_radius, tick_spacing):
@@ -51,10 +60,10 @@ def thisIsAwp(image, cx, cy):
 
             # Рисуем отметку
             if tick_direction[0] == 0:  # Вертикальные отметки
-                cv2.line(image, (tick_start[0] - tick_length // 2, tick_start[1]),
+                cv2.line(masked_image, (tick_start[0] - tick_length // 2, tick_start[1]),
                          (tick_start[0] + tick_length // 2, tick_start[1]), color, line_thickness)
             else:  # Горизонтальные отметки
-                cv2.line(image, (tick_start[0], tick_start[1] - tick_length // 2),
+                cv2.line(masked_image, (tick_start[0], tick_start[1] - tick_length // 2),
                          (tick_start[0], tick_start[1] + tick_length // 2), color, line_thickness)
 
     # Рисуем вертикальные линии с отметками
@@ -64,6 +73,8 @@ def thisIsAwp(image, cx, cy):
     # Рисуем горизонтальные линии с отметками
     draw_line_with_ticks((cx - crosshair_radius - gap, cy), (cx - outer_circle_radius, cy), (-1, 0))
     draw_line_with_ticks((cx + crosshair_radius + gap, cy), (cx + outer_circle_radius, cy), (1, 0))
+
+    return masked_image
 
 
 # Окна программы и их позиции
@@ -108,7 +119,7 @@ while True:
         cy = int(moments['m01'] / moments['m00'])
 
         # Рисуем прицел AWP в центре обнаруженного объекта
-        thisIsAwp(frame, cx, cy)
+        frame = thisIsAwp(frame, cx, cy)
 
         # Отображаем центр объекта и его площадь
         cv2.putText(frame, f"Area: {int(area)}", (cx - 50, cy - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
