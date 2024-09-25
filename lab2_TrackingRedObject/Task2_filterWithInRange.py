@@ -30,20 +30,20 @@ def get_color_mask(hsv_frame, color):
         upper_green = np.array([90, 255, 255])
         return cv2.inRange(hsv_frame, lower_green, upper_green)
 
-    elif color =='black':
+    elif color == 'black':
+        # Диапазон черного цвета
         lower_black = np.array([0, 0, 0])
         upper_black = np.array([180, 255, 50])
         return cv2.inRange(hsv_frame, lower_black, upper_black)
+
     elif color == 'white':
-        lower_white = np.array([255, 255, 255])
-        upper_white = np.array([255, 255, 255])
+        # Диапазон белого цвета (допустим, светлые участки)
+        lower_white = np.array([0, 0, 200])
+        upper_white = np.array([180, 25, 255])
+        return cv2.inRange(hsv_frame, lower_white, upper_white)
 
     else:
         return np.zeros_like(hsv_frame[:, :, 0])  # Возвращаем пустую маску
-
-    '''
-     cv2.inRange() выделяет пиксели, попадающие в определённый диапазон цветовых 
-     '''
 
 
 # Открытие камеры
@@ -52,8 +52,6 @@ cap = cv2.VideoCapture(0)
 if not cap.isOpened():
     print("Не удалось открыть камеру")
     exit()
-
-selected_color = 'red'  # Начальный цвет фильтрации
 
 while True:
     ret, frame = cap.read()
@@ -65,26 +63,32 @@ while True:
     # Преобразование изображения в цветовое пространство HSV
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    # Получаем маску для выбранного цвета
-    color_mask = get_color_mask(hsv_frame, selected_color)
+    # Получаем маски для всех цветов
+    red_mask = get_color_mask(hsv_frame, 'red')
+    green_mask = get_color_mask(hsv_frame, 'green')
+    blue_mask = get_color_mask(hsv_frame, 'blue')
+    black_mask = get_color_mask(hsv_frame, 'black')
+    white_mask = get_color_mask(hsv_frame, 'white')
 
-    # Наложение маски на изображение
-    color_output = cv2.bitwise_and(frame, frame, mask=color_mask)
+    # Применение масок на изображение
+    red_output = cv2.bitwise_and(frame, frame, mask=red_mask)
+    green_output = cv2.bitwise_and(frame, frame, mask=green_mask)
+    blue_output = cv2.bitwise_and(frame, frame, mask=blue_mask)
+    black_output = cv2.bitwise_and(frame, frame, mask=black_mask)
+    white_output = cv2.bitwise_and(frame, frame, mask=white_mask)
 
+    # Отображение исходного изображения и всех масок параллельно
     cv2.imshow('Original Image', frame)
-    cv2.imshow(f'{selected_color.capitalize()} Object Image', color_output)
+    cv2.imshow('Red Object Image', red_output)
+    cv2.imshow('Green Object Image', green_output)
+    cv2.imshow('Blue Object Image', blue_output)
+    cv2.imshow('Black Object Image', black_output)
+    cv2.imshow('White Object Image', white_output)
 
+    # Ожидание нажатия клавиши для выхода
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
         break
-    elif key == ord('r'):
-        selected_color = 'red'
-    elif key == ord('g'):
-        selected_color = 'green'
-    elif key == ord('b'):
-        selected_color = 'blue'
-    elif key == ord('k'):
-        selected_color = 'black'
 
 # Освобождение ресурсов
 cap.release()

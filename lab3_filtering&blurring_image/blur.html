@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaussian Blur with p5.js</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+<script>
+    let img;
+
+    function preload() {
+        // Загрузите изображение
+        img = loadImage('images/img1.jpg'); // Замените на реальный URL изображения
+    }
+
+    function setup() {
+        createCanvas(img.width, img.height);
+        img.filter(BLUR, 3); // Применяем размытие Гаусса с радиусом 3
+        image(img, 0, 0);
+    }
+</script>
+</body>
+</html>
