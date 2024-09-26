@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+# Функция для получения маски в зависимости от выбранного цвета
 def get_color_mask(hsv_frame, color):
     if color == 'red':
         # Диапазон красного цвета
@@ -41,6 +42,9 @@ if not cap.isOpened():
 
 selected_color = 'red'
 
+# Структурный элемент для морфологических операций
+kernel = np.ones((5, 5), np.uint8)
+
 while True:
     ret, frame = cap.read()
 
@@ -48,10 +52,14 @@ while True:
         print("Ошибка при получении кадра")
         break
 
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
+    # Преобразование изображения в цветовое пространство HSV
+    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # Получаем маску для выбранного цвета
     color_mask = get_color_mask(hsv_frame, selected_color)
+
+    # Применение морфологических операций для удаления шумов
+    color_mask = cv2.morphologyEx(color_mask, cv2.MORPH_OPEN, kernel)
 
     # Находим моменты изображения
     moments = cv2.moments(color_mask)
@@ -80,6 +88,9 @@ while True:
 
             # Отображаем центр объекта
             cv2.circle(frame, (cx, cy), 5, (0, 0, 0), -1)  # Рисуем центр массы
+
+    # Отображаем маску для проверки
+    cv2.imshow('Color Mask', color_mask)
 
     # Отображение исходного изображения с прямоугольником и центром объекта
     cv2.imshow('Original Image with Bounding Box', frame)
