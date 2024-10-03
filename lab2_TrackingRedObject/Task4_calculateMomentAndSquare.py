@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import pyautogui
 
+selected_color = 'red'
+
 
 # Функция для получения маски красного цвета
 def get_red_mask(hsv_frame):

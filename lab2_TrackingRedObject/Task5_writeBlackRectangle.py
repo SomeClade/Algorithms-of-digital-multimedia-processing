@@ -19,8 +19,8 @@ def get_color_mask(hsv_frame, color):
 
     elif color == 'blue':
         # Диапазон синего цвета
-        lower_blue = np.array([100, 150, 0])
-        upper_blue = np.array([140, 255, 255])
+        lower_blue = np.array([102, 58, 89])
+        upper_blue = np.array([120, 255, 255])
         return cv2.inRange(hsv_frame, lower_blue, upper_blue)
 
     elif color == 'green':
