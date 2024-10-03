@@ -23,4 +23,4 @@ def compare_manual_vs_opencv(image_path, kernel_size, sigma):
 
 
 if __name__ == "__main__":
-    compare_manual_vs_opencv('images/img1.jpg', 5, 100.0)
+    compare_manual_vs_opencv('images/img1.jpg', 7, 20)

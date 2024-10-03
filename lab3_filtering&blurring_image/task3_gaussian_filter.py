@@ -37,5 +37,5 @@ def apply_gaussian_filter_manual(image, kernel_size, sigma):
 
 if __name__ == "__main__":
     img = cv2.imread('images/img1.jpg', cv2.IMREAD_GRAYSCALE)  # Загружаем изображение в оттенках серого
-    filtered_img = apply_gaussian_filter_manual(img, 5, 100.0)
+    filtered_img = apply_gaussian_filter_manual(img, 5, -0.5)
     cv2.imwrite('filtered_image_manual.jpg', filtered_img)

@@ -17,8 +17,8 @@ def get_color_mask(hsv_frame, color):
         return cv2.bitwise_or(mask1, mask2)
 
     elif color == 'blue':
-        lower_blue = np.array([100, 150, 0])
-        upper_blue = np.array([140, 255, 255])
+        lower_blue = np.array([102, 68, 89])
+        upper_blue = np.array([120, 255, 255])
         return cv2.inRange(hsv_frame, lower_blue, upper_blue)
 
     elif color == 'green':
@@ -50,7 +50,7 @@ while True:
         break
 
     # Преобразование изображения в цветовое пространство HSV
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
+    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # Получаем маску для выбранного цвета
     color_mask = get_color_mask(hsv_frame, selected_color)

@@ -15,7 +15,7 @@ while True:
         break
 
     # Преобразование изображения в цветовое пространство HSV
-    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
+    hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     cv2.imshow('Original Image', frame)
     cv2.imshow('HSV Image', hsv_frame)
