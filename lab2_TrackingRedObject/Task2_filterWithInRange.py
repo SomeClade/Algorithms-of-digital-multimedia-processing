@@ -7,6 +7,7 @@ def get_color_mask(hsv_frame, color):
         # Диапазон красного цвета
         lower_red_1 = np.array([0, 120, 70])
         upper_red_1 = np.array([10, 255, 255])
+        # находится с двух концов
 
         lower_red_2 = np.array([170, 120, 70])
         upper_red_2 = np.array([180, 255, 255])
@@ -16,31 +17,35 @@ def get_color_mask(hsv_frame, color):
         mask2 = cv2.inRange(hsv_frame, lower_red_2, upper_red_2)
 
         # Объединение двух масок
-        return cv2.bitwise_or(mask1, mask2)
+        return cv2.threshold(mask1 | mask2, 1, 255, cv2.THRESH_BINARY)[1]
 
     elif color == 'blue':
         # Диапазон синего цвета
         lower_blue = np.array([100, 150, 0])
         upper_blue = np.array([140, 255, 255])
-        return cv2.inRange(hsv_frame, lower_blue, upper_blue)
+        mask = cv2.inRange(hsv_frame, lower_blue, upper_blue)
+        return cv2.threshold(mask, 1, 255, cv2.THRESH_BINARY)[1]
 
     elif color == 'green':
         # Диапазон зеленого цвета
         lower_green = np.array([40, 50, 50])
         upper_green = np.array([90, 255, 255])
-        return cv2.inRange(hsv_frame, lower_green, upper_green)
+        mask = cv2.inRange(hsv_frame, lower_green, upper_green)
+        return cv2.threshold(mask, 1, 255, cv2.THRESH_BINARY)[1]
 
     elif color == 'black':
         # Диапазон черного цвета
         lower_black = np.array([0, 0, 0])
         upper_black = np.array([180, 255, 50])
-        return cv2.inRange(hsv_frame, lower_black, upper_black)
+        mask = cv2.inRange(hsv_frame, lower_black, upper_black)
+        return cv2.threshold(mask, 1, 255, cv2.THRESH_BINARY)[1]
 
     elif color == 'white':
         # Диапазон белого цвета (допустим, светлые участки)
         lower_white = np.array([0, 0, 200])
         upper_white = np.array([180, 25, 255])
-        return cv2.inRange(hsv_frame, lower_white, upper_white)
+        mask = cv2.inRange(hsv_frame, lower_white, upper_white)
+        return cv2.threshold(mask, 1, 255, cv2.THRESH_BINARY)[1]
 
     else:
         return np.zeros_like(hsv_frame[:, :, 0])  # Возвращаем пустую маску
@@ -70,12 +75,21 @@ while True:
     black_mask = get_color_mask(hsv_frame, 'black')
     white_mask = get_color_mask(hsv_frame, 'white')
 
-    # Применение масок на изображение
-    red_output = cv2.bitwise_and(frame, frame, mask=red_mask)
-    green_output = cv2.bitwise_and(frame, frame, mask=green_mask)
-    blue_output = cv2.bitwise_and(frame, frame, mask=blue_mask)
-    black_output = cv2.bitwise_and(frame, frame, mask=black_mask)
-    white_output = cv2.bitwise_and(frame, frame, mask=white_mask)
+    # Накладываем маски на исходное изображение вручную
+    red_output = frame.copy()
+    red_output[red_mask == 0] = 0
+
+    green_output = frame.copy()
+    green_output[green_mask == 0] = 0
+
+    blue_output = frame.copy()
+    blue_output[blue_mask == 0] = 0
+
+    black_output = frame.copy()
+    black_output[black_mask == 0] = 0
+
+    white_output = frame.copy()
+    white_output[white_mask == 0] = 0
 
     # Отображение исходного изображения и всех масок параллельно
     cv2.imshow('Original Image', frame)

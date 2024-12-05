@@ -1,4 +1,4 @@
-const Jimp = require('jimp').default; // For newer Jimp versions
+const Jimp = require('jimp').default;
 
 
 async function applyGaussianBlur(imagePath, outputImagePath, radius) {

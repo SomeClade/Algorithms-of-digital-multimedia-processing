@@ -22,7 +22,6 @@ def process_image(path, kernel_size=5, sigma_x=10, sigma_y=10, size_x=640, size_
     # Отображение черно-белого изображения
     cv2.imshow("Gray Image", img_resized)
 
-    # Применение размытия по Гауссу. Здесь kernel_size определяет размеры фильтра, а sigma_x и sigma_y — степень размытия.
     img_gaussian = cv2.GaussianBlur(img_resized, (kernel_size, kernel_size), sigmaX=sigma_x, sigmaY=sigma_y)
 
     # Отображение размытого изображения
@@ -33,7 +32,6 @@ def process_image(path, kernel_size=5, sigma_x=10, sigma_y=10, size_x=640, size_
     grad_lengths = calculate_gradient_lengths(grads)  # Вычисление длин градиентов
     grad_angles = calculate_gradient_angles(grads)  # Вычисление углов градиентов
 
-    # Вывод матриц длин и углов градиентов в консоль
     print("Gradient Lengths:\n", grad_lengths)
     print("Gradient Angles:\n", grad_angles)
 

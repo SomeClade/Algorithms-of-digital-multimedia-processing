@@ -3,7 +3,7 @@ import numpy as np
 def gaussian_kernel(size, sigma):
     ax = np.linspace(-(size - 1) / 2., (size - 1) / 2., size)
     gauss = np.exp(-0.5 * np.square(ax) / np.square(sigma))
-    kernel = np.outer(gauss, gauss)
+    kernel = np.outer(gauss, gauss) # вычисляет внешнее произведение двух одномерных массивов
     return kernel
 
 if __name__ == "__main__":
