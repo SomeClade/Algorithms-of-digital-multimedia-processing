@@ -1,5 +1,7 @@
 import cv2
+import numpy as np
 
+# Открываем видеофайл для чтения
 cap = cv2.VideoCapture('input_video.mp4')
 
 # Получаем параметры видео для сохранения выходного файла
@@ -12,55 +14,45 @@ out = cv2.VideoWriter('output_video.mp4',
                       cv2.VideoWriter_fourcc(*'mp4v'),
                       fps, (frame_width, frame_height))
 
-ret, frame1 = cap.read()
-if not ret:
-    print("Не удалось прочитать видеофайл.")
-    cap.release()
-    out.release()
-    exit()
-
-# Преобразуем кадр в оттенки серого и применяем размытие Гаусса
-gray1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-gray1 = cv2.GaussianBlur(gray1, (21, 21), 0)
+# Инициализируем фоновый вычитатель
+backSub = cv2.createBackgroundSubtractorMOG2(history=500, varThreshold=16, detectShadows=True)
 
 while True:
-    ret, frame2 = cap.read()
+    ret, frame = cap.read()
     if not ret:
         break
 
-    # Преобразуем кадр в оттенки серого и применяем размытие Гаусса
-    gray2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
-    gray2 = cv2.GaussianBlur(gray2, (21, 21), 0)
+    # Применяем фоновое вычитание
+    fg_mask = backSub.apply(frame)
 
-    # Вычисляем разницу между кадрами
-    frame_diff = cv2.absdiff(gray1, gray2)
+    # Удаляем тени (опционально)
+    _, fg_mask = cv2.threshold(fg_mask, 250, 255, cv2.THRESH_BINARY)
 
-    # Применяем пороговое значение для выделения движущихся областей
-    thresh = cv2.threshold(frame_diff, 25, 255, cv2.THRESH_BINARY)[1]  # todo баловаться с значениями
-
-    # Увеличиваем изображение для заполнения "дырок"
-    thresh = cv2.dilate(thresh, None, iterations=2)
+    # Применяем морфологические операции для удаления шума
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel, iterations=2)
+    fg_mask = cv2.dilate(fg_mask, kernel, iterations=2)
 
     # Находим контуры
-    contours, _ = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(fg_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     movement = False
     for contour in contours:
-        if cv2.contourArea(contour) > 500:  # Порог площади контура
+        area = cv2.contourArea(contour)
+        if area > 1000:
             movement = True
-            #  рисуем прямоугольник вокруг движущегося объекта
-            (x, y, w, h) = cv2.boundingRect(contour)
-            cv2.rectangle(frame2, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            # Улучшаем контур с помощью приближения
+            epsilon = 0.01 * cv2.arcLength(contour, True)
+            approx = cv2.approxPolyDP(contour, epsilon, True)
+            cv2.drawContours(frame, [approx], -1, (0, 255, 0), 2)
 
     # Если было движение, записываем кадр
     if movement:
-        out.write(frame2)
+        out.write(frame)
 
     # Отображаем кадр
-    cv2.imshow('Video', frame2)
-
-    # Обновляем предыдущий кадр
-    gray1 = gray2.copy()
+    cv2.imshow('Frame', frame)
+    cv2.imshow('FG Mask', fg_mask)
 
     # Прерываем цикл по нажатию клавиши 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
