@@ -14,8 +14,8 @@ out = cv2.VideoWriter('output_video.mp4',
                       cv2.VideoWriter_fourcc(*'mp4v'),
                       fps, (frame_width, frame_height))
 
-# Инициализируем фоновый вычитатель
-backSub = cv2.createBackgroundSubtractorMOG2(history=500, varThreshold=16, detectShadows=True)
+# Инициализируем фоновый вычитатель с обновленными параметрами
+backSub = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=50, detectShadows=False)
 
 while True:
     ret, frame = cap.read()
@@ -25,13 +25,10 @@ while True:
     # Применяем фоновое вычитание
     fg_mask = backSub.apply(frame)
 
-    # Удаляем тени (опционально)
-    _, fg_mask = cv2.threshold(fg_mask, 250, 255, cv2.THRESH_BINARY)
-
     # Применяем морфологические операции для удаления шума
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
-    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel, iterations=2)
-    fg_mask = cv2.dilate(fg_mask, kernel, iterations=2)
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel, iterations=1)
+    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
 
     # Находим контуры
     contours, _ = cv2.findContours(fg_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -39,12 +36,16 @@ while True:
     movement = False
     for contour in contours:
         area = cv2.contourArea(contour)
-        if area > 1000:
-            movement = True
-            # Улучшаем контур с помощью приближения
-            epsilon = 0.01 * cv2.arcLength(contour, True)
-            approx = cv2.approxPolyDP(contour, epsilon, True)
-            cv2.drawContours(frame, [approx], -1, (0, 255, 0), 2)
+        if area > 500:
+            # Фильтруем по аспектному соотношению
+            x, y, w, h = cv2.boundingRect(contour)
+            aspect_ratio = float(w)/h
+            if 0.2 < aspect_ratio < 1.0:
+                movement = True
+                # Улучшаем контур с помощью приближения
+                epsilon = 0.005 * cv2.arcLength(contour, True)
+                approx = cv2.approxPolyDP(contour, epsilon, True)
+                cv2.drawContours(frame, [approx], -1, (0, 255, 0), 2)
 
     # Если было движение, записываем кадр
     if movement:
@@ -52,7 +53,7 @@ while True:
 
     # Отображаем кадр
     cv2.imshow('Frame', frame)
-    cv2.imshow('FG Mask', fg_mask)
+    # cv2.imshow('FG Mask', fg_mask)  # Опционально: отображение маски
 
     # Прерываем цикл по нажатию клавиши 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
