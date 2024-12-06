@@ -2,6 +2,7 @@ import cv2
 
 cap = cv2.VideoCapture('input_video.mp4')
 
+# Получаем параметры видео для сохранения выходного файла
 frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
 fps = cap.get(cv2.CAP_PROP_FPS)
@@ -20,7 +21,7 @@ if not ret:
 
 # Преобразуем кадр в оттенки серого и применяем размытие Гаусса
 gray1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-gray1 = cv2.GaussianBlur(gray1, (41, 41), 0)
+gray1 = cv2.GaussianBlur(gray1, (21, 21), 0)
 
 while True:
     ret, frame2 = cap.read()
@@ -29,13 +30,13 @@ while True:
 
     # Преобразуем кадр в оттенки серого и применяем размытие Гаусса
     gray2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
-    gray2 = cv2.GaussianBlur(gray2, (41, 41), 0)
+    gray2 = cv2.GaussianBlur(gray2, (21, 21), 0)
 
-    # Вычисляем разницу между кадрами с помощью побитовой операции XOR
-    frame_diff = cv2.bitwise_xor(gray1, gray2)
+    # Вычисляем разницу между кадрами
+    frame_diff = cv2.absdiff(gray1, gray2)
 
     # Применяем пороговое значение для выделения движущихся областей
-    _, thresh = cv2.threshold(frame_diff, 240, 255, cv2.THRESH_BINARY)
+    thresh = cv2.threshold(frame_diff, 120, 255, cv2.THRESH_BINARY)[1]  # todo баловаться с значениями
 
     # Увеличиваем изображение для заполнения "дырок"
     thresh = cv2.dilate(thresh, None, iterations=2)
@@ -45,9 +46,9 @@ while True:
 
     movement = False
     for contour in contours:
-        if cv2.contourArea(contour) > 6000:  # Порог площади контура
+        if cv2.contourArea(contour) > 500:  # Порог площади контура
             movement = True
-            # Рисуем прямоугольник вокруг движущегося объекта
+            #  рисуем прямоугольник вокруг движущегося объекта
             (x, y, w, h) = cv2.boundingRect(contour)
             cv2.rectangle(frame2, (x, y), (x + w, y + h), (0, 255, 0), 2)
 

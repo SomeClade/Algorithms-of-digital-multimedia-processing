@@ -53,7 +53,7 @@ while True:
 
     # Отображаем кадр
     cv2.imshow('Frame', frame)
-    # cv2.imshow('FG Mask', fg_mask)  # Опционально: отображение маски
+    # cv2.imshow('FG Mask', fg_mask)  #отображение маски
 
     # Прерываем цикл по нажатию клавиши 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
