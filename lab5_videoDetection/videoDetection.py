@@ -15,7 +15,7 @@ out = cv2.VideoWriter('output_video.mp4',
                       fps, (frame_width, frame_height))
 
 # Инициализируем фоновый вычитатель с обновленными параметрами
-backSub = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=50, detectShadows=False)
+backSub = cv2.createBackgroundSubtractorMOG2(history=1000, varThreshold=20, detectShadows=False)
 
 while True:
     ret, frame = cap.read()
@@ -26,9 +26,9 @@ while True:
     fg_mask = backSub.apply(frame)
 
     # Применяем морфологические операции для удаления шума
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
     fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel, iterations=1)
-    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
+    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_CLOSE, kernel, iterations=3)
 
     # Находим контуры
     contours, _ = cv2.findContours(fg_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -53,7 +53,7 @@ while True:
 
     # Отображаем кадр
     cv2.imshow('Frame', frame)
-    # cv2.imshow('FG Mask', fg_mask)  #отображение маски
+    cv2.imshow('FG Mask', fg_mask)  #отображение маски
 
     # Прерываем цикл по нажатию клавиши 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
