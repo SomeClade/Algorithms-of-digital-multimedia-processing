@@ -7,6 +7,7 @@ from methods.KCFTracker import KCFTracker
 from methods.MeanShift import MeanShiftHands
 from methods.MedianFlow import MedianFlowTracker
 from methods.CSRTTracker import CSRTTracker
+from methods.TemplateMatchTracker import TemplateMatchTracker
 
 
 # Функция для трекинга объектов
@@ -46,11 +47,14 @@ def track_object(video_path, tracker_type, **kwargs):
         tracker = MeanShiftHands()
     elif tracker_type == "CSRT":
         tracker = CSRTTracker()
+    elif tracker_type == "TemplateMatch":
+        tracker = TemplateMatchTracker()
     else:
         print("Неизвестный тип трекера")
         return
 
-    # Настраиваем записывающий объект (видеовыход)
+    # fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    # fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     tracker.setUpWriter(fourcc, fps, (width, height))
 
     # Запускаем процесс трекинга
@@ -58,7 +62,7 @@ def track_object(video_path, tracker_type, **kwargs):
 
 
 if __name__ == "__main__":
-    #разные трекеры: 'CamShift', 'KCF',  упс 'MedianFlow', 'MeanShiftHands', 'CSRT'
-
     video_path = 'video4.mp4'
-    track_object(video_path, 'CSRT')
+    #разные трекеры: 'TemplateMatch' 'CamShift', 'KCF',  упс 'MedianFlow', 'MeanShiftHands', 'CSRT'
+
+    track_object(video_path, 'TemplateMatch')
