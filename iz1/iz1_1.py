@@ -8,6 +8,7 @@ from methods.MeanShift import MeanShiftHands
 from methods.MedianFlow import MedianFlowTracker
 from methods.CSRTTracker import CSRTTracker
 from methods.TemplateMatchTracker import TemplateMatchTracker
+from methods.MosseTracker import MosseTracker
 
 
 # Функция для трекинга объектов
@@ -49,6 +50,8 @@ def track_object(video_path, tracker_type, **kwargs):
         tracker = CSRTTracker()
     elif tracker_type == "TemplateMatch":
         tracker = TemplateMatchTracker()
+    elif tracker_type == "MOSSE":
+        tracker = MosseTracker()
     else:
         print("Неизвестный тип трекера")
         return
@@ -62,7 +65,7 @@ def track_object(video_path, tracker_type, **kwargs):
 
 
 if __name__ == "__main__":
-    video_path = 'video4.mp4'
-    #разные трекеры: 'TemplateMatch' 'CamShift', 'KCF', 'MeanShiftHands', 'CSRT'
+    video_path = 'video3.mp4'
+    #разные трекеры: 'TemplateMatch' 'CamShift', 'KCF', 'MeanShiftHands', 'CSRT,'MOSSE''
 
     track_object(video_path, 'TemplateMatch')
