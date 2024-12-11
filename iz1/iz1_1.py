@@ -58,7 +58,7 @@ def track_object(video_path, tracker_type, **kwargs):
 
 
 if __name__ == "__main__":
-    #разные трекеры: 'CamShift', упс 'KCF',  упс 'MedianFlow', 'MeanShiftHands', упс 'CSRT'
+    #разные трекеры: 'CamShift', 'KCF',  упс 'MedianFlow', 'MeanShiftHands', 'CSRT'
 
-    video_path = 'video3.mp4'
-    track_object(video_path, 'CamShift')
+    video_path = 'video4.mp4'
+    track_object(video_path, 'CSRT')
