@@ -5,7 +5,7 @@ class CSRTTracker:
         self.writer = None
 
     def setUpWriter(self, fourcc, fps, framesize):
-        self.writer = cv2.VideoWriter("../result.mp4", fourcc, fps, framesize)
+        self.writer = cv2.VideoWriter("../resultCSRTTracker.mp4", fourcc, fps, framesize)
 
     def process(self, videoCap: cv2.VideoCapture, **kwargs):
         ret, frame = videoCap.read()

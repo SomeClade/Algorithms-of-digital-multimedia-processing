@@ -24,7 +24,7 @@ class TemplateMatchTracker:
 
     def setUpWriter(self, fourcc, fps, framesize):
         # Инициализация VideoWriter
-        self.writer = cv2.VideoWriter("../result.mp4", fourcc, fps, framesize)
+        self.writer = cv2.VideoWriter("../resultTemplateMatchTracker.mp4", fourcc, fps, framesize)
 
     def process(self, cap: cv2.VideoCapture, **kwargs):
         # Читаем первый кадр

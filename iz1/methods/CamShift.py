@@ -8,7 +8,7 @@ class CamShift:
         self.writer = None
 
     def setUpWriter(self, fourcc, fps, framesize):
-        self.writer = cv2.VideoWriter("../result.mp4", fourcc, fps, framesize)
+        self.writer = cv2.VideoWriter("../resultCamShift.mp4", fourcc, fps, framesize)
 
     def createMask(self, frame, low, top):
         # Создает маску по заданным нижним и верхним порогам

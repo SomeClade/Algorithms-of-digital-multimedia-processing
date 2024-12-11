@@ -8,7 +8,7 @@ class MeanShiftHands:
         self.writer = None
 
     def setUpWriter(self, fourcc, fps, framesize):
-        self.writer = cv2.VideoWriter("../result.mp4", fourcc, fps, framesize)
+        self.writer = cv2.VideoWriter("../resultMeanShiftHands.mp4", fourcc, fps, framesize)
 
     def createMask(self, frame, low, top):
         # Создает маску по цвету из нескольких диапазонов

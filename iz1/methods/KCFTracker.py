@@ -1,13 +1,11 @@
 import cv2
-print(cv2.__version__)
-print(dir(cv2.legacy))
 class KCFTracker:
     def __init__(self):
         self.writer = None
 
     def setUpWriter(self, fourcc, fps, framesize):
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        self.writer = cv2.VideoWriter("../result.mp4", fourcc, fps, framesize)
+        self.writer = cv2.VideoWriter("../resultKCFTracker.mp4", fourcc, fps, framesize)
 
     def process(self, videoCap: cv2.VideoCapture, **kwargs):
         ret, frame = videoCap.read()
