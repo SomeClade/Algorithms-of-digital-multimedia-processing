@@ -1,0 +1,190 @@
+﻿Image,Method,Operator,Gaussian Kernel,Lower Threshold,Upper Threshold,Num Edges
+1.jpg,Canny,Sobel,"(3, 3)",50,150,33700
+1.jpg,Canny,Sobel,"(3, 3)",100,200,17954
+1.jpg,Canny,Sobel,"(3, 3)",150,250,10410
+1.jpg,Canny,Sobel,"(5, 5)",50,150,25201
+1.jpg,Canny,Sobel,"(5, 5)",100,200,12890
+1.jpg,Canny,Sobel,"(5, 5)",150,250,7061
+1.jpg,Canny,Sobel,"(7, 7)",50,150,16705
+1.jpg,Canny,Sobel,"(7, 7)",100,200,8214
+1.jpg,Canny,Sobel,"(7, 7)",150,250,4538
+1.jpg,Canny,Scharr,"(3, 3)",50,150,229782
+1.jpg,Canny,Scharr,"(3, 3)",100,200,165844
+1.jpg,Canny,Scharr,"(3, 3)",150,250,139936
+1.jpg,Canny,Scharr,"(5, 5)",50,150,197142
+1.jpg,Canny,Scharr,"(5, 5)",100,200,149852
+1.jpg,Canny,Scharr,"(5, 5)",150,250,126771
+1.jpg,Canny,Scharr,"(7, 7)",50,150,168029
+1.jpg,Canny,Scharr,"(7, 7)",100,200,130315
+1.jpg,Canny,Scharr,"(7, 7)",150,250,109194
+1.jpg,Laplacian,N/A,N/A,N/A,N/A,12830
+1.jpg,Prewitt,N/A,N/A,N/A,N/A,52004
+1.jpg,Roberts,N/A,N/A,N/A,N/A,3763
+2.jpg,Canny,Sobel,"(3, 3)",50,150,83982
+2.jpg,Canny,Sobel,"(3, 3)",100,200,55730
+2.jpg,Canny,Sobel,"(3, 3)",150,250,37372
+2.jpg,Canny,Sobel,"(5, 5)",50,150,58804
+2.jpg,Canny,Sobel,"(5, 5)",100,200,35411
+2.jpg,Canny,Sobel,"(5, 5)",150,250,22410
+2.jpg,Canny,Sobel,"(7, 7)",50,150,37242
+2.jpg,Canny,Sobel,"(7, 7)",100,200,19228
+2.jpg,Canny,Sobel,"(7, 7)",150,250,9255
+2.jpg,Canny,Scharr,"(3, 3)",50,150,300604
+2.jpg,Canny,Scharr,"(3, 3)",100,200,227238
+2.jpg,Canny,Scharr,"(3, 3)",150,250,194676
+2.jpg,Canny,Scharr,"(5, 5)",50,150,256389
+2.jpg,Canny,Scharr,"(5, 5)",100,200,201789
+2.jpg,Canny,Scharr,"(5, 5)",150,250,176157
+2.jpg,Canny,Scharr,"(7, 7)",50,150,221186
+2.jpg,Canny,Scharr,"(7, 7)",100,200,178203
+2.jpg,Canny,Scharr,"(7, 7)",150,250,153129
+2.jpg,Laplacian,N/A,N/A,N/A,N/A,150330
+2.jpg,Prewitt,N/A,N/A,N/A,N/A,157746
+2.jpg,Roberts,N/A,N/A,N/A,N/A,52484
+3.jpg,Canny,Sobel,"(3, 3)",50,150,29580
+3.jpg,Canny,Sobel,"(3, 3)",100,200,22564
+3.jpg,Canny,Sobel,"(3, 3)",150,250,17465
+3.jpg,Canny,Sobel,"(5, 5)",50,150,24099
+3.jpg,Canny,Sobel,"(5, 5)",100,200,18120
+3.jpg,Canny,Sobel,"(5, 5)",150,250,13852
+3.jpg,Canny,Sobel,"(7, 7)",50,150,18408
+3.jpg,Canny,Sobel,"(7, 7)",100,200,13864
+3.jpg,Canny,Sobel,"(7, 7)",150,250,10783
+3.jpg,Canny,Scharr,"(3, 3)",50,150,209221
+3.jpg,Canny,Scharr,"(3, 3)",100,200,147858
+3.jpg,Canny,Scharr,"(3, 3)",150,250,116954
+3.jpg,Canny,Scharr,"(5, 5)",50,150,178653
+3.jpg,Canny,Scharr,"(5, 5)",100,200,124206
+3.jpg,Canny,Scharr,"(5, 5)",150,250,96479
+3.jpg,Canny,Scharr,"(7, 7)",50,150,140393
+3.jpg,Canny,Scharr,"(7, 7)",100,200,91936
+3.jpg,Canny,Scharr,"(7, 7)",150,250,71245
+3.jpg,Laplacian,N/A,N/A,N/A,N/A,28839
+3.jpg,Prewitt,N/A,N/A,N/A,N/A,63472
+3.jpg,Roberts,N/A,N/A,N/A,N/A,12829
+4.jpg,Canny,Sobel,"(3, 3)",50,150,11766
+4.jpg,Canny,Sobel,"(3, 3)",100,200,4760
+4.jpg,Canny,Sobel,"(3, 3)",150,250,2848
+4.jpg,Canny,Sobel,"(5, 5)",50,150,7335
+4.jpg,Canny,Sobel,"(5, 5)",100,200,3724
+4.jpg,Canny,Sobel,"(5, 5)",150,250,2173
+4.jpg,Canny,Sobel,"(7, 7)",50,150,4663
+4.jpg,Canny,Sobel,"(7, 7)",100,200,2588
+4.jpg,Canny,Sobel,"(7, 7)",150,250,1409
+4.jpg,Canny,Scharr,"(3, 3)",50,150,320962
+4.jpg,Canny,Scharr,"(3, 3)",100,200,158428
+4.jpg,Canny,Scharr,"(3, 3)",150,250,104517
+4.jpg,Canny,Scharr,"(5, 5)",50,150,241017
+4.jpg,Canny,Scharr,"(5, 5)",100,200,126456
+4.jpg,Canny,Scharr,"(5, 5)",150,250,84289
+4.jpg,Canny,Scharr,"(7, 7)",50,150,178008
+4.jpg,Canny,Scharr,"(7, 7)",100,200,95373
+4.jpg,Canny,Scharr,"(7, 7)",150,250,61725
+4.jpg,Laplacian,N/A,N/A,N/A,N/A,3477
+4.jpg,Prewitt,N/A,N/A,N/A,N/A,17967
+4.jpg,Roberts,N/A,N/A,N/A,N/A,470
+5.jpg,Canny,Sobel,"(3, 3)",50,150,20094
+5.jpg,Canny,Sobel,"(3, 3)",100,200,10636
+5.jpg,Canny,Sobel,"(3, 3)",150,250,6690
+5.jpg,Canny,Sobel,"(5, 5)",50,150,13014
+5.jpg,Canny,Sobel,"(5, 5)",100,200,6862
+5.jpg,Canny,Sobel,"(5, 5)",150,250,4310
+5.jpg,Canny,Sobel,"(7, 7)",50,150,7620
+5.jpg,Canny,Sobel,"(7, 7)",100,200,3991
+5.jpg,Canny,Sobel,"(7, 7)",150,250,2900
+5.jpg,Canny,Scharr,"(3, 3)",50,150,135733
+5.jpg,Canny,Scharr,"(3, 3)",100,200,99983
+5.jpg,Canny,Scharr,"(3, 3)",150,250,83423
+5.jpg,Canny,Scharr,"(5, 5)",50,150,115923
+5.jpg,Canny,Scharr,"(5, 5)",100,200,89929
+5.jpg,Canny,Scharr,"(5, 5)",150,250,73387
+5.jpg,Canny,Scharr,"(7, 7)",50,150,100347
+5.jpg,Canny,Scharr,"(7, 7)",100,200,73044
+5.jpg,Canny,Scharr,"(7, 7)",150,250,57767
+5.jpg,Laplacian,N/A,N/A,N/A,N/A,19078
+5.jpg,Prewitt,N/A,N/A,N/A,N/A,31895
+5.jpg,Roberts,N/A,N/A,N/A,N/A,5020
+6.jpg,Canny,Sobel,"(3, 3)",50,150,12217
+6.jpg,Canny,Sobel,"(3, 3)",100,200,8105
+6.jpg,Canny,Sobel,"(3, 3)",150,250,6595
+6.jpg,Canny,Sobel,"(5, 5)",50,150,10205
+6.jpg,Canny,Sobel,"(5, 5)",100,200,7037
+6.jpg,Canny,Sobel,"(5, 5)",150,250,6065
+6.jpg,Canny,Sobel,"(7, 7)",50,150,8241
+6.jpg,Canny,Sobel,"(7, 7)",100,200,6257
+6.jpg,Canny,Sobel,"(7, 7)",150,250,5268
+6.jpg,Canny,Scharr,"(3, 3)",50,150,437824
+6.jpg,Canny,Scharr,"(3, 3)",100,200,205437
+6.jpg,Canny,Scharr,"(3, 3)",150,250,119661
+6.jpg,Canny,Scharr,"(5, 5)",50,150,313715
+6.jpg,Canny,Scharr,"(5, 5)",100,200,128125
+6.jpg,Canny,Scharr,"(5, 5)",150,250,82436
+6.jpg,Canny,Scharr,"(7, 7)",50,150,163012
+6.jpg,Canny,Scharr,"(7, 7)",100,200,81518
+6.jpg,Canny,Scharr,"(7, 7)",150,250,56351
+6.jpg,Laplacian,N/A,N/A,N/A,N/A,8340
+6.jpg,Prewitt,N/A,N/A,N/A,N/A,26044
+6.jpg,Roberts,N/A,N/A,N/A,N/A,4185
+7.jpg,Canny,Sobel,"(3, 3)",50,150,21280
+7.jpg,Canny,Sobel,"(3, 3)",100,200,11195
+7.jpg,Canny,Sobel,"(3, 3)",150,250,5641
+7.jpg,Canny,Sobel,"(5, 5)",50,150,14692
+7.jpg,Canny,Sobel,"(5, 5)",100,200,6385
+7.jpg,Canny,Sobel,"(5, 5)",150,250,2491
+7.jpg,Canny,Sobel,"(7, 7)",50,150,8431
+7.jpg,Canny,Sobel,"(7, 7)",100,200,2787
+7.jpg,Canny,Sobel,"(7, 7)",150,250,1311
+7.jpg,Canny,Scharr,"(3, 3)",50,150,138207
+7.jpg,Canny,Scharr,"(3, 3)",100,200,96948
+7.jpg,Canny,Scharr,"(3, 3)",150,250,78378
+7.jpg,Canny,Scharr,"(5, 5)",50,150,117960
+7.jpg,Canny,Scharr,"(5, 5)",100,200,86789
+7.jpg,Canny,Scharr,"(5, 5)",150,250,69186
+7.jpg,Canny,Scharr,"(7, 7)",50,150,99905
+7.jpg,Canny,Scharr,"(7, 7)",100,200,71490
+7.jpg,Canny,Scharr,"(7, 7)",150,250,55510
+7.jpg,Laplacian,N/A,N/A,N/A,N/A,20222
+7.jpg,Prewitt,N/A,N/A,N/A,N/A,33014
+7.jpg,Roberts,N/A,N/A,N/A,N/A,3499
+8.jpg,Canny,Sobel,"(3, 3)",50,150,31341
+8.jpg,Canny,Sobel,"(3, 3)",100,200,17495
+8.jpg,Canny,Sobel,"(3, 3)",150,250,9636
+8.jpg,Canny,Sobel,"(5, 5)",50,150,22321
+8.jpg,Canny,Sobel,"(5, 5)",100,200,11044
+8.jpg,Canny,Sobel,"(5, 5)",150,250,5332
+8.jpg,Canny,Sobel,"(7, 7)",50,150,13110
+8.jpg,Canny,Sobel,"(7, 7)",100,200,5494
+8.jpg,Canny,Sobel,"(7, 7)",150,250,2500
+8.jpg,Canny,Scharr,"(3, 3)",50,150,309464
+8.jpg,Canny,Scharr,"(3, 3)",100,200,184573
+8.jpg,Canny,Scharr,"(3, 3)",150,250,137127
+8.jpg,Canny,Scharr,"(5, 5)",50,150,245343
+8.jpg,Canny,Scharr,"(5, 5)",100,200,154328
+8.jpg,Canny,Scharr,"(5, 5)",150,250,115700
+8.jpg,Canny,Scharr,"(7, 7)",50,150,191039
+8.jpg,Canny,Scharr,"(7, 7)",100,200,123878
+8.jpg,Canny,Scharr,"(7, 7)",150,250,92482
+8.jpg,Laplacian,N/A,N/A,N/A,N/A,22567
+8.jpg,Prewitt,N/A,N/A,N/A,N/A,45212
+8.jpg,Roberts,N/A,N/A,N/A,N/A,3930
+9.jpg,Canny,Sobel,"(3, 3)",50,150,44371
+9.jpg,Canny,Sobel,"(3, 3)",100,200,36549
+9.jpg,Canny,Sobel,"(3, 3)",150,250,29167
+9.jpg,Canny,Sobel,"(5, 5)",50,150,38607
+9.jpg,Canny,Sobel,"(5, 5)",100,200,30458
+9.jpg,Canny,Sobel,"(5, 5)",150,250,22415
+9.jpg,Canny,Sobel,"(7, 7)",50,150,31521
+9.jpg,Canny,Sobel,"(7, 7)",100,200,21593
+9.jpg,Canny,Sobel,"(7, 7)",150,250,13235
+9.jpg,Canny,Scharr,"(3, 3)",50,150,92608
+9.jpg,Canny,Scharr,"(3, 3)",100,200,88782
+9.jpg,Canny,Scharr,"(3, 3)",150,250,85727
+9.jpg,Canny,Scharr,"(5, 5)",50,150,90746
+9.jpg,Canny,Scharr,"(5, 5)",100,200,87215
+9.jpg,Canny,Scharr,"(5, 5)",150,250,84234
+9.jpg,Canny,Scharr,"(7, 7)",50,150,88163
+9.jpg,Canny,Scharr,"(7, 7)",100,200,84275
+9.jpg,Canny,Scharr,"(7, 7)",150,250,80264
+9.jpg,Laplacian,N/A,N/A,N/A,N/A,53017
+9.jpg,Prewitt,N/A,N/A,N/A,N/A,90391
+9.jpg,Roberts,N/A,N/A,N/A,N/A,17673

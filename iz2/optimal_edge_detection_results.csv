@@ -1,0 +1,10 @@
+﻿Image,Method,Operator,Gaussian Kernel,Lower Threshold,Upper Threshold,Num Edges
+1.jpg,Canny,Scharr,"(3, 3)",50,150,229782
+2.jpg,Canny,Scharr,"(3, 3)",50,150,300604
+3.jpg,Canny,Scharr,"(3, 3)",50,150,209221
+4.jpg,Canny,Scharr,"(3, 3)",50,150,320962
+5.jpg,Canny,Scharr,"(3, 3)",50,150,135733
+6.jpg,Canny,Scharr,"(3, 3)",50,150,437824
+7.jpg,Canny,Scharr,"(3, 3)",50,150,138207
+8.jpg,Canny,Scharr,"(3, 3)",50,150,309464
+9.jpg,Canny,Scharr,"(3, 3)",50,150,92608

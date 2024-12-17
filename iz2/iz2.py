@@ -4,13 +4,10 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Путь к папке с изображениями
 IMAGE_FOLDER = 'dataset/'
 
-# Список имен файлов изображений (1.jpg до 9.jpg)
 IMAGE_NAMES = [f"{i}.jpg" for i in range(1, 10)]
 
-# Параметры размытия Гаусса (размер ядра)
 GAUSSIAN_KERNEL_SIZES = [(3, 3), (5, 5), (7, 7)]
 
 # Пары пороговых значений для алгоритма Канни
@@ -33,7 +30,6 @@ ALTERNATIVE_METHODS = {
 }
 
 
-# Функция для загрузки изображений из папки
 def load_images(folder, image_names):
     images = []
     valid_image_names = []
@@ -48,12 +44,10 @@ def load_images(folder, image_names):
     return images, valid_image_names
 
 
-# Функция для применения размытия Гаусса
 def apply_gaussian_blur(image, kernel_size):
     return cv2.GaussianBlur(image, kernel_size, 0)
 
 
-# Функция для применения алгоритма Канни с указанными параметрами и оператором
 def apply_canny(image, lower_thresh, upper_thresh, operator='Sobel'):
     if operator == 'Scharr':
         # Используем оператор Шарра вместо Собеля
@@ -108,7 +102,6 @@ def apply_alternative_method(image, method):
         return None
 
 
-# Функция для отображения исходного и результирующих изображений в сетке
 def display_comparison(original, results, image_name, save_path=None):
     num_methods = len(results)
     cols = 3  # Количество столбцов в сетке
@@ -139,11 +132,9 @@ def display_comparison(original, results, image_name, save_path=None):
 images, image_names = load_images(IMAGE_FOLDER, IMAGE_NAMES)
 print(f"✅ Загружено {len(images)} изображений.")
 
-# Создание списков для хранения результатов
 all_results = []
 optimal_results = []
 
-# Создание папки для сохранения визуализаций
 VISUALIZATION_FOLDER = 'visualizations/'
 os.makedirs(VISUALIZATION_FOLDER, exist_ok=True)
 

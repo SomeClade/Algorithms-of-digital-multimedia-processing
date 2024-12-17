@@ -6,7 +6,6 @@ import os
 sns.set(style="whitegrid")
 plt.rcParams.update({'figure.max_open_warning': 0})
 
-# Пути к файлам
 EDGE_DETECTION_RESULTS = 'edge_detection_results.csv'
 OPTIMAL_RESULTS = 'optimal_edge_detection_results.csv'
 BEST_METHOD_FILE = 'best_method_overall.txt'
