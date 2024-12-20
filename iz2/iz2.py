@@ -26,9 +26,9 @@ OPERATORS = {
 ALTERNATIVE_METHODS = {
     'Laplacian': None,
     'Prewitt': None,
-    'Roberts': None
+    'Zero_Crossing': None,
+    'Difference_of_Gaussians': None
 }
-
 
 def load_images(folder, image_names):
     images = []
@@ -43,10 +43,8 @@ def load_images(folder, image_names):
             print(f"⚠️ Не удалось загрузить изображение: {filename}")
     return images, valid_image_names
 
-
 def apply_gaussian_blur(image, kernel_size):
     return cv2.GaussianBlur(image, kernel_size, 0)
-
 
 def apply_canny(image, lower_thresh, upper_thresh, operator='Sobel'):
     if operator == 'Scharr':
@@ -61,7 +59,6 @@ def apply_canny(image, lower_thresh, upper_thresh, operator='Sobel'):
     else:
         # Используем стандартный алгоритм Канни с оператором Собеля
         return cv2.Canny(image, lower_thresh, upper_thresh)
-
 
 # Функция для применения альтернативных методов
 def apply_alternative_method(image, method):
@@ -98,9 +95,24 @@ def apply_alternative_method(image, method):
         grad = cv2.addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0)
         _, edges = cv2.threshold(grad, 50, 255, cv2.THRESH_BINARY)
         return edges
+    elif method == 'Zero_Crossing':
+        # Использование Zero Crossing на основе Лапласиана Гаусса
+        blurred = cv2.GaussianBlur(image, (3,3), 0)
+        laplacian = cv2.Laplacian(blurred, cv2.CV_64F)
+        zero_cross = np.zeros_like(laplacian, dtype=np.uint8)
+        # Определение нулевых переходов
+        zero_cross[(laplacian > 0) & (cv2.Laplacian(blurred, cv2.CV_64F, ksize=3) < 0)] = 255
+        zero_cross[(laplacian < 0) & (cv2.Laplacian(blurred, cv2.CV_64F, ksize=3) > 0)] = 255
+        return zero_cross
+    elif method == 'Difference_of_Gaussians':
+        # Разница Гауссианов
+        blur1 = cv2.GaussianBlur(image, (3,3), 0)
+        blur2 = cv2.GaussianBlur(image, (5,5), 0)
+        dog = cv2.subtract(blur1, blur2)
+        _, edges = cv2.threshold(dog, 10, 255, cv2.THRESH_BINARY)
+        return edges
     else:
         return None
-
 
 def display_comparison(original, results, image_name, save_path=None):
     num_methods = len(results)
@@ -120,6 +132,8 @@ def display_comparison(original, results, image_name, save_path=None):
         title = f"{result['Method']}"
         if result['Method'].startswith('Canny'):
             title += f"\nOp: {result['Operator']}\nKernel: {result['Gaussian Kernel']}\nThresh: {result['Lower Threshold']}-{result['Upper Threshold']}"
+        elif result['Method'] in ['Zero_Crossing', 'Difference_of_Gaussians']:
+            title += f"\nMethod: {result['Method']}"
         plt.title(title, fontsize=10)
         plt.axis('off')
 
@@ -127,7 +141,6 @@ def display_comparison(original, results, image_name, save_path=None):
     if save_path:
         plt.savefig(save_path)
     plt.show()
-
 
 images, image_names = load_images(IMAGE_FOLDER, IMAGE_NAMES)
 print(f"✅ Загружено {len(images)} изображений.")
@@ -173,7 +186,7 @@ for idx, image in enumerate(images):
                 })
 
                 comparison_results.append({
-                    'Method': 'Canny',
+                    'Method': f'Canny ({operator_name})',
                     'Operator': operator_name,
                     'Gaussian Kernel': kernel_size,
                     'Lower Threshold': lower,

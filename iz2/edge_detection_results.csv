@@ -19,7 +19,8 @@
 1.jpg,Canny,Scharr,"(7, 7)",150,250,109194
 1.jpg,Laplacian,N/A,N/A,N/A,N/A,12830
 1.jpg,Prewitt,N/A,N/A,N/A,N/A,52004
-1.jpg,Roberts,N/A,N/A,N/A,N/A,3763
+1.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,18797
+1.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,1252
 2.jpg,Canny,Sobel,"(3, 3)",50,150,83982
 2.jpg,Canny,Sobel,"(3, 3)",100,200,55730
 2.jpg,Canny,Sobel,"(3, 3)",150,250,37372
@@ -40,7 +41,8 @@
 2.jpg,Canny,Scharr,"(7, 7)",150,250,153129
 2.jpg,Laplacian,N/A,N/A,N/A,N/A,150330
 2.jpg,Prewitt,N/A,N/A,N/A,N/A,157746
-2.jpg,Roberts,N/A,N/A,N/A,N/A,52484
+2.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,31039
+2.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,10860
 3.jpg,Canny,Sobel,"(3, 3)",50,150,29580
 3.jpg,Canny,Sobel,"(3, 3)",100,200,22564
 3.jpg,Canny,Sobel,"(3, 3)",150,250,17465
@@ -61,7 +63,8 @@
 3.jpg,Canny,Scharr,"(7, 7)",150,250,71245
 3.jpg,Laplacian,N/A,N/A,N/A,N/A,28839
 3.jpg,Prewitt,N/A,N/A,N/A,N/A,63472
-3.jpg,Roberts,N/A,N/A,N/A,N/A,12829
+3.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,18328
+3.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,3036
 4.jpg,Canny,Sobel,"(3, 3)",50,150,11766
 4.jpg,Canny,Sobel,"(3, 3)",100,200,4760
 4.jpg,Canny,Sobel,"(3, 3)",150,250,2848
@@ -82,7 +85,8 @@
 4.jpg,Canny,Scharr,"(7, 7)",150,250,61725
 4.jpg,Laplacian,N/A,N/A,N/A,N/A,3477
 4.jpg,Prewitt,N/A,N/A,N/A,N/A,17967
-4.jpg,Roberts,N/A,N/A,N/A,N/A,470
+4.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,30214
+4.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,84
 5.jpg,Canny,Sobel,"(3, 3)",50,150,20094
 5.jpg,Canny,Sobel,"(3, 3)",100,200,10636
 5.jpg,Canny,Sobel,"(3, 3)",150,250,6690
@@ -103,7 +107,8 @@
 5.jpg,Canny,Scharr,"(7, 7)",150,250,57767
 5.jpg,Laplacian,N/A,N/A,N/A,N/A,19078
 5.jpg,Prewitt,N/A,N/A,N/A,N/A,31895
-5.jpg,Roberts,N/A,N/A,N/A,N/A,5020
+5.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,13201
+5.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,1002
 6.jpg,Canny,Sobel,"(3, 3)",50,150,12217
 6.jpg,Canny,Sobel,"(3, 3)",100,200,8105
 6.jpg,Canny,Sobel,"(3, 3)",150,250,6595
@@ -124,7 +129,8 @@
 6.jpg,Canny,Scharr,"(7, 7)",150,250,56351
 6.jpg,Laplacian,N/A,N/A,N/A,N/A,8340
 6.jpg,Prewitt,N/A,N/A,N/A,N/A,26044
-6.jpg,Roberts,N/A,N/A,N/A,N/A,4185
+6.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,43162
+6.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,871
 7.jpg,Canny,Sobel,"(3, 3)",50,150,21280
 7.jpg,Canny,Sobel,"(3, 3)",100,200,11195
 7.jpg,Canny,Sobel,"(3, 3)",150,250,5641
@@ -145,7 +151,8 @@
 7.jpg,Canny,Scharr,"(7, 7)",150,250,55510
 7.jpg,Laplacian,N/A,N/A,N/A,N/A,20222
 7.jpg,Prewitt,N/A,N/A,N/A,N/A,33014
-7.jpg,Roberts,N/A,N/A,N/A,N/A,3499
+7.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,12361
+7.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,694
 8.jpg,Canny,Sobel,"(3, 3)",50,150,31341
 8.jpg,Canny,Sobel,"(3, 3)",100,200,17495
 8.jpg,Canny,Sobel,"(3, 3)",150,250,9636
@@ -166,7 +173,8 @@
 8.jpg,Canny,Scharr,"(7, 7)",150,250,92482
 8.jpg,Laplacian,N/A,N/A,N/A,N/A,22567
 8.jpg,Prewitt,N/A,N/A,N/A,N/A,45212
-8.jpg,Roberts,N/A,N/A,N/A,N/A,3930
+8.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,28648
+8.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,960
 9.jpg,Canny,Sobel,"(3, 3)",50,150,44371
 9.jpg,Canny,Sobel,"(3, 3)",100,200,36549
 9.jpg,Canny,Sobel,"(3, 3)",150,250,29167
@@ -187,4 +195,5 @@
 9.jpg,Canny,Scharr,"(7, 7)",150,250,80264
 9.jpg,Laplacian,N/A,N/A,N/A,N/A,53017
 9.jpg,Prewitt,N/A,N/A,N/A,N/A,90391
-9.jpg,Roberts,N/A,N/A,N/A,N/A,17673
+9.jpg,Zero_Crossing,N/A,N/A,N/A,N/A,7660
+9.jpg,Difference_of_Gaussians,N/A,N/A,N/A,N/A,4185
