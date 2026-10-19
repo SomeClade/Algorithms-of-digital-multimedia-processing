@@ -25,16 +25,18 @@ else:
     stretched = low.copy()
     gamma = low.copy()
 
-# Гистограмма: сколько пикселей имеют каждую яркость.
-histogram = cv2.calcHist([low], [0], None, [256], [0, 256]).ravel()
-cdf = np.cumsum(histogram.astype(float)) / low.size
-p = cdf[low]
+p = np.zeros_like(low, dtype=float)
+for channel in range(3):
+    histogram = cv2.calcHist(
+        [low], [channel], None, [256], [0, 256]
+    ).ravel()
+    cdf = np.cumsum(histogram.astype(float)) / (low.shape[0] * low.shape[1])
+    p[:, :, channel] = cdf[low[:, :, channel]]
 
 uniform = np.rint((maximum - minimum) * p + minimum).astype(np.uint8)
 
 # Защита от log(0), когда вероятность равна 1.
 p_safe = np.clip(p, 0, 1 - 0.000001)
-# нормализация к диапозону от 0 до 1
 i_min = minimum / 255
 
 # Экспоненциальное преобразование, alpha = 3.
@@ -48,9 +50,13 @@ rayleigh = np.rint(255 * np.clip(values, 0, 1)).astype(np.uint8)
 power = np.rint(255 * p ** (2 / 3)).astype(np.uint8)
 hyperbolic = np.rint(255 * 0.04 ** p).astype(np.uint8)
 
-equalized = cv2.equalizeHist(low)
+equalized = low.copy()
 clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-clahe_result = clahe.apply(low)
+clahe_result = low.copy()
+
+for channel in range(3):
+    equalized[:, :, channel] = cv2.equalizeHist(low[:, :, channel])
+    clahe_result[:, :, channel] = clahe.apply(low[:, :, channel])
 
 lut = np.arange(256, dtype=float)
 if maximum > minimum:
@@ -65,7 +71,7 @@ cv2.imwrite("results/task1_lut.png", lut_result)
 
 images = [gray, low, bright, stretched, gamma, uniform,
           exponential, rayleigh, power, hyperbolic, equalized, clahe_result]
-titles = ["Исходное в сером", "Слабый контраст", "Яркость +50",
+titles = ["Исходное цветное", "Слабый контраст", "Яркость +50",
           "Линейное растяжение", "Растяжение, степень 0.5", "Равномерное",
           "Экспоненциальное", "Рэлея", "Степень 2/3",
           "Гиперболическое", "OpenCV equalizeHist", "OpenCV CLAHE"]
@@ -84,17 +90,26 @@ for start in range(0, len(images), 3):
     for column in range(3):
         i = start + column
         plt.subplot(2, 3, column + 1)
-        # Единый диапазон нужен для честного сравнения контраста.
-        plt.imshow(images[i], cmap="gray", vmin=0, vmax=255)
+
+        # Отображаем цветное изображение.
+        plt.imshow(cv2.cvtColor(images[i], cv2.COLOR_BGR2RGB))
         plt.title(titles[i])
         plt.axis("off")
+
         plt.subplot(2, 3, column + 4)
-        hist = cv2.calcHist([images[i]], [0], None, [256], [0, 256])
-        plt.plot(hist)
+
+        # Строим гистограммы для синего, зелёного и красного каналов.
+        for channel, color in enumerate(["b", "g", "r"]):
+            hist = cv2.calcHist(
+                [images[i]], [channel], None, [256], [0, 256]
+            )
+            plt.plot(hist, color=color)
+
         plt.xlim(0, 255)
         plt.xlabel("Яркость")
         plt.ylabel("Число пикселей")
         plt.grid()
+
     plt.tight_layout()
     number = start // 3 + 1
     plt.savefig("results/task1_comparison_" + str(number) + ".png", dpi=150)
