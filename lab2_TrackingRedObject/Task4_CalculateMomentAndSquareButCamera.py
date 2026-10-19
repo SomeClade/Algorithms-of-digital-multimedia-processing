@@ -26,6 +26,7 @@ def apply_morphological_transformations(mask):
     kernel = np.ones((5, 5), np.uint8)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+
     return mask
 
 # Функция для рисования прицела с затемнением за его пределами
@@ -76,7 +77,7 @@ if not cap.isOpened():
     exit()
 
 # Выбор цвета: 'red' для красного и 'blue' для голубого
-selected_color = 'blue'
+selected_color = 'red'
 
 # Словарь для эмуляции switch case
 color_mask_functions = {
