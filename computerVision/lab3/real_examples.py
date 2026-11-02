@@ -24,7 +24,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 os.makedirs("results", exist_ok=True)
 
 image_names = ["real_noisy", "real_blur"]
-image_titles = ["Настоящий шум: ночной Гонконг", "Настоящий смаз: движение камеры"]
+image_titles = ["шум: ночной Гонконг", "смаз: движение камеры"]
 
 gaussian_settings = [(3, 0.8), (5, 1.2), (7, 1.6)]
 median_sizes = [3, 5, 7]

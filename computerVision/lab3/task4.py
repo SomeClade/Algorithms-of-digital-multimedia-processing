@@ -48,13 +48,6 @@ os.makedirs("results", exist_ok=True)
 
 image_names = ["architecture", "galaxies"]
 image_titles = ["Плотная городская застройка", "Hubble eXtreme Deep Field"]
-credits = [
-    "J. Carmichael, Sham Shui Po rooftops, Wikimedia Commons, Public Domain\n"
-    "Изменения: уменьшение, перевод в оттенки серого, выделение границ",
-    "NASA, ESA, G. Illingworth, D. Magee, and P. Oesch (University of California, Santa Cruz),\n"
-    "R. Bouwens (Leiden University), and the HUDF09 Team. CC BY 4.0\n"
-    "Изменения: уменьшение, перевод в оттенки серого, выделение границ"
-]
 method_names = ["roberts", "prewitt", "sobel", "laplacian", "canny"]
 method_titles = ["Робертс", "Превитт", "Собел", "Лаплас", "Кэнни: 50 / 120"]
 
@@ -77,7 +70,6 @@ for image_index in range(len(image_names)):
         plt.imshow(images[index], cmap="gray", vmin=0, vmax=255)
         plt.title(titles[index])
         plt.axis("off")
-    figure.text(0.5, 0.015, credits[image_index], ha="center", fontsize=8)
     plt.tight_layout(rect=(0, 0.09, 1, 0.95), h_pad=4)
     plt.savefig("results/task4_" + image_name + "_comparison.png", dpi=150)
 
