@@ -6,58 +6,35 @@ import matplotlib.pyplot as plt
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 os.makedirs("results", exist_ok=True)
 
-original = cv2.imread("images/city.png")
+original = cv2.imread("images/barrel.png")
 height, width = original.shape[:2]
 
-center_x = (width - 1) / 2
-center_y = (height - 1) / 2
+# Матрица камеры приближенная, параметры подобраны по прямым краям корпуса.
+camera_matrix = np.array([
+    [width, 0, (width - 1) / 2],
+    [0, width, (height - 1) / 2],
+    [0, 0, 1]
+], dtype=float)
 
-scale = max(width, height) / 2
-coefficient = 0.25
+# Отрицательный k1 описывает бочкообразную дисторсию в модели OpenCV.
+dist_coeffs = np.array([-0.14, 0, 0, 0, 0], dtype=float)
 
-# Строим координаты всех пикселей и переносим начало координат в центр.
-grid_y, grid_x = np.indices((height, width), dtype=np.float32)
-normal_x = (grid_x - center_x) / scale
-normal_y = (grid_y - center_y) / scale
+# Последний ноль убирает черные края ценой небольшой обрезки изображения.
+new_camera_matrix, _ = cv2.getOptimalNewCameraMatrix(
+    camera_matrix, dist_coeffs, (width, height), 0)
+corrected = cv2.undistort(original, camera_matrix, dist_coeffs, None, new_camera_matrix)
 
-# Чем дальше точка от центра, тем сильнее меняются координаты выборки.
-radius_squared = normal_x ** 2 + normal_y ** 2
-distortion_factor = 1 + coefficient * radius_squared
-distortion_x = center_x + scale * normal_x * distortion_factor
-distortion_y = center_y + scale * normal_y * distortion_factor
+print("Коэффициент дисторсии k1:", dist_coeffs[0])
+cv2.imwrite("results/task2_original.png", original)
 
-# Для каждого пикселя результата remap берет цвет по рассчитанным координатам источника.
-distorted = cv2.remap(original, distortion_x, distortion_y, cv2.INTER_LINEAR)
+images = [original, corrected]
+titles = ["Фото с бочкообразной дисторсией", "После коррекции"]
+names = ["distorted", "corrected"]
 
-
-inverse_x = normal_x.copy()
-before_error = np.abs(original.astype(float) - distorted.astype(float)).mean()
-inverse_y = normal_y.copy()
-for iteration in range(15):
-    radius_squared = inverse_x ** 2 + inverse_y ** 2
-    correction_factor = 1 + coefficient * radius_squared
-    inverse_x = normal_x / correction_factor
-    inverse_y = normal_y / correction_factor
-
-# Возвращаем нормированные координаты в пиксели и исправляем искаженный снимок.
-correction_x = center_x + scale * inverse_x
-correction_y = center_y + scale * inverse_y
-corrected = cv2.remap(distorted, correction_x, correction_y, cv2.INTER_LINEAR)
-
-# Я говорил что такое безумие?!!
-after_error = np.abs(original.astype(float) - corrected.astype(float)).mean()
-print("Коэффициент бочкообразного искажения:", coefficient)
-print("Средняя абсолютная ошибка до коррекции:", round(float(before_error), 2))
-print("Средняя абсолютная ошибка после коррекции:", round(float(after_error), 2))
-
-images = [original, distorted, corrected]
-titles = ["Исходное изображение", "Бочкообразная дисторсия", "После коррекции"]
-names = ["original", "distorted", "corrected"]
-
-plt.figure(figsize=(13, 4))
-for index in range(3):
+plt.figure(figsize=(14, 4))
+for index in range(2):
     cv2.imwrite("results/task2_" + names[index] + ".png", images[index])
-    plt.subplot(1, 3, index + 1)
+    plt.subplot(1, 2, index + 1)
     plt.imshow(cv2.cvtColor(images[index], cv2.COLOR_BGR2RGB))
     plt.title(titles[index])
     plt.axis("off")
