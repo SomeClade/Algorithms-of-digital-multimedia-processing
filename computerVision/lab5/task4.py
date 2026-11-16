@@ -1,13 +1,18 @@
-import os
 import csv
 import json
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+if __package__:
+    from .core import (fill_holes, finish_plots, load_image, local_mean_std,
+                       prepare_environment, resize_image, save_json)
+else:
+    from core import (fill_holes, finish_plots, load_image, local_mean_std,
+                      prepare_environment, resize_image, save_json)
+
 
 def local_entropy(gray, window=9, bins=32):
-    # Аналог entropyfilt. Квантование 256 -> 32 уровней снижает влияние шума.
     quantized = gray.astype(np.uint16) * bins // 256
     entropy = np.zeros(gray.shape, dtype=np.float32)
     for level in range(bins):
@@ -20,11 +25,7 @@ def local_entropy(gray, window=9, bins=32):
 
 
 def local_statistics(gray, window=9):
-    values = gray.astype(np.float32)
-    mean = cv2.boxFilter(values, -1, (window, window), borderType=cv2.BORDER_REFLECT)
-    mean_square = cv2.boxFilter(values * values, -1, (window, window),
-                                borderType=cv2.BORDER_REFLECT)
-    deviation = np.sqrt(np.maximum(mean_square - mean * mean, 0))
+    _, deviation = local_mean_std(gray, window)
     kernel = np.ones((window, window), dtype=np.uint8)
     maximum = cv2.dilate(gray, kernel, borderType=cv2.BORDER_REFLECT)
     minimum = cv2.erode(gray, kernel, borderType=cv2.BORDER_REFLECT)
@@ -32,7 +33,6 @@ def local_statistics(gray, window=9):
 
 
 def texture_descriptors(gray, mask):
-    # Статистика только пикселей области, без обнуленного фона.
     values = gray[np.asarray(mask, dtype=bool)]
     if values.size == 0:
         raise ValueError("Нельзя вычислить признаки пустой области")
@@ -60,25 +60,11 @@ def remove_small_regions(mask, min_area):
     return result
 
 
-def fill_holes(mask):
-    # Нулевая рамка гарантирует, что (0,0) принадлежит внешнему фону.
-    padded = cv2.copyMakeBorder(mask, 1, 1, 1, 1, cv2.BORDER_CONSTANT, value=0)
-    flooded = padded.copy()
-    cv2.floodFill(flooded, None, (0, 0), 255)
-    holes = cv2.bitwise_not(flooded)[1:-1, 1:-1]
-    return cv2.bitwise_or(mask, holes)
-
-
 def main():
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    os.makedirs("results", exist_ok=True)
-    original = cv2.imread("images/textures.jpg")
-    if original is None:
-        raise FileNotFoundError("Не удалось прочитать images/textures.jpg")
+    prepare_environment(__file__)
+    original = load_image("images/textures.jpg")
     height, width = original.shape[:2]
-    scale = min(1, 640 / max(height, width))
-    image = cv2.resize(original, (round(width * scale), round(height * scale)),
-                        interpolation=cv2.INTER_AREA)
+    image = resize_image(original)
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     entropy = local_entropy(gray, window=9, bins=32)
@@ -137,8 +123,7 @@ def main():
                   "class_assignment": "Higher local variation: coarse field; lower: smooth sky."
                   " Relative interpretation for this photograph, not universal trained classification.",
                   "regions": records}
-    with open("results/task4_stats.json", "w", encoding="utf-8") as file:
-        json.dump(statistics, file, ensure_ascii=False, indent=2)
+    save_json("results/task4_stats.json", statistics)
 
     plt.figure(figsize=(13, 8))
     maps = [rgb, gray, entropy, deviation, value_range, raw]
@@ -171,9 +156,7 @@ def main():
     print("Порог Оцу нормированной энтропии:", threshold)
     for record in records:
         print(json.dumps(record, ensure_ascii=False))
-    if plt.get_backend().lower() != "agg":
-        plt.show()
-    plt.close("all")
+    finish_plots()
 
 
 if __name__ == "__main__":

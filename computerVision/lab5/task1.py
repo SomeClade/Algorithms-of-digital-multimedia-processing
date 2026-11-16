@@ -1,39 +1,33 @@
-import os
 import csv
-import json
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+if __package__:
+    from .core import (finish_plots, load_image, local_mean_std,
+                       prepare_environment, resize_image, save_json)
+else:
+    from core import (finish_plots, load_image, local_mean_std,
+                      prepare_environment, resize_image, save_json)
+
 
 def double_threshold(image, lower=110, upper=200):
-    # Формула (4.2) из методички: t1 < I <= t2.
     return np.where((image > lower) & (image <= upper), 255, 0).astype(np.uint8)
 
 
 def niblack_threshold(image, window=31, k=-0.2):
     values = image.astype(np.float32)
-    mean = cv2.boxFilter(values, -1, (window, window),
-                         borderType=cv2.BORDER_REFLECT)
-    mean_square = cv2.boxFilter(values * values, -1, (window, window),
-                                borderType=cv2.BORDER_REFLECT)
-    deviation = np.sqrt(np.maximum(mean_square - mean * mean, 0))
+    mean, deviation = local_mean_std(image, window)
     threshold = mean + k * deviation
     return np.where(values > threshold, 255, 0).astype(np.uint8)
 
 
 def main():
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    os.makedirs("results", exist_ok=True)
-    original = cv2.imread("images/portrait.jpg")
-    if original is None:
-        raise FileNotFoundError("Не удалось прочитать images/portrait.jpg")
+    prepare_environment(__file__)
+    original = load_image("images/portrait.jpg")
     height, width = original.shape[:2]
-    factor = min(1, 640 / max(height, width))
-    original = cv2.resize(original, (round(width * factor), round(height * factor)),
-                           interpolation=cv2.INTER_AREA)
+    original = resize_image(original)
     rgb = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)
-    # Как в примере rgb2gray из основной методички: цветной вход -> яркость.
     gray = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
     otsu_value, otsu = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     masks = [double_threshold(gray), otsu,
@@ -120,15 +114,12 @@ def main():
              "otsu_gray": float(otsu_value), "otsu_rgb": channel_otsu,
              "adaptive_window": 31, "adaptive_C": 5,
              "rgb_combination": "AND", "niblack_k": -0.2}
-    with open("results/task1_stats.json", "w", encoding="utf-8") as file:
-        json.dump(stats, file, ensure_ascii=False, indent=2)
+    save_json("results/task1_stats.json", stats)
     print("Порог Оцу по яркости:", otsu_value)
     print("Пороги Оцу по R/G/B:", channel_otsu)
     for row in measurements:
         print(row[0], ": доля белых пикселей", row[1])
-    if plt.get_backend().lower() != "agg":
-        plt.show()
-    plt.close("all")
+    finish_plots()
 
 
 if __name__ == "__main__":

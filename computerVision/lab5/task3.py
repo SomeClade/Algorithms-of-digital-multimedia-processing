@@ -1,12 +1,17 @@
 """Задание 3. Сегментация фотографии методом K-means в плоскости a*b*."""
 
-import os
 import csv
-import json
 
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+
+if __package__:
+    from .core import (finish_plots, load_image, prepare_environment,
+                       resize_image, save_json)
+else:
+    from core import (finish_plots, load_image, prepare_environment,
+                      resize_image, save_json)
 
 
 K = 4  # Три цветные грани кубика и нейтральная область (фон и черные ребра).
@@ -16,7 +21,6 @@ MAX_DIMENSION = 640
 
 def segment_colors(original, k=K, seed=SEED):
     """Возвращает float Lab, метки 0..k-1, центры a*b* и сумму квадратов ошибок."""
-    # Для float BGR OpenCV ожидает 0..1 и возвращает L*=0..100, знаковые a*, b*.
     lab = cv2.cvtColor(original.astype(np.float32) / 255.0, cv2.COLOR_BGR2LAB)
     samples = np.ascontiguousarray(lab[:, :, 1:3].reshape(-1, 2))
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.2)
@@ -34,20 +38,13 @@ def segment_colors(original, k=K, seed=SEED):
 
 
 def main():
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    os.makedirs("results", exist_ok=True)
+    prepare_environment(__file__)
 
-    original = cv2.imread("images/color_objects.jpg")
-    if original is None:
-        raise FileNotFoundError("Не удалось прочитать images/color_objects.jpg")
+    original = load_image("images/color_objects.jpg")
     source_shape = list(original.shape[:2])
     # Уменьшаем весь снимок, сохраняя пропорции; кадрирование не используется.
     scale = min(1.0, MAX_DIMENSION / max(original.shape[:2]))
-    if scale < 1.0:
-        original = cv2.resize(
-            original, (round(original.shape[1] * scale), round(original.shape[0] * scale)),
-            interpolation=cv2.INTER_AREA
-        )
+    original = resize_image(original, MAX_DIMENSION)
 
     lab, labels, centers, compactness = segment_colors(original)
     rgb = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)
@@ -100,8 +97,7 @@ def main():
             "input": "Unaltered Wikimedia 960px JPEG thumbnail; resized here to 640px width"
         }
     }
-    with open("results/task3_metrics.json", "w", encoding="utf-8") as file:
-        json.dump(metrics, file, ensure_ascii=False, indent=2)
+    save_json("results/task3_metrics.json", metrics)
 
     fig, axes = plt.subplots(2, 3, figsize=(13, 8))
     comparison = [rgb, segmented_rgb] + [cv2.cvtColor(image, cv2.COLOR_BGR2RGB) for image in masked]
@@ -158,9 +154,7 @@ def main():
         print(f"Cluster {i}: a*={centers[i, 0]:.3f}, b*={centers[i, 1]:.3f}, "
               f"pixels={counts[i]}, share={counts[i] / pixel_count:.4%}")
     print(f"Mean squared a*b* distance: {compactness / pixel_count:.6f}")
-    if plt.get_backend().lower() != "agg":
-        plt.show()
-    plt.close("all")
+    finish_plots()
 
 
 if __name__ == "__main__":

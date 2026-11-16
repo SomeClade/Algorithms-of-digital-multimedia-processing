@@ -1,14 +1,18 @@
-import os
 import json
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+if __package__:
+    from .core import (fill_holes, finish_plots, load_image,
+                       prepare_environment, resize_image, save_json)
+else:
+    from core import (fill_holes, finish_plots, load_image,
+                      prepare_environment, resize_image, save_json)
+
 
 def skin_rgb(rgb):
-    """Критерий (4.12) для RGB в диапазоне 0..255."""
     red, green, blue = np.moveaxis(rgb.astype(np.int16), -1, 0)
-    # B < 20 напечатано в методичке. Условие сохранено без исправления.
     selected = ((red > 95) & (green > 40) & (blue < 20)
                 & (rgb.max(axis=2).astype(np.int16)
                    - rgb.min(axis=2).astype(np.int16) > 15)
@@ -17,7 +21,6 @@ def skin_rgb(rgb):
 
 
 def skin_bright(rgb):
-    """Критерий (4.13) для ярко освещенной кожи."""
     red, green, blue = np.moveaxis(rgb.astype(np.int16), -1, 0)
     selected = ((red > 220) & (green > 210) & (blue > 170)
                 & (np.abs(red - green) <= 15) & (green > blue) & (red > blue))
@@ -25,7 +28,6 @@ def skin_bright(rgb):
 
 
 def skin_normalized(rgb):
-    """Критерий (4.14); черные пиксели и G=0 не дают деления на ноль."""
     values = rgb.astype(np.float64)
     total = values.sum(axis=2, keepdims=True)
     normalized = np.divide(values, total, out=np.zeros_like(values), where=total > 0)
@@ -43,7 +45,6 @@ def skin_normalized(rgb):
 
 
 def skin_rgb_corrected(rgb):
-    """RGB с B > 20, проверенное по Kovač, Peer, Solina (2003)."""
     red, green, blue = np.moveaxis(rgb.astype(np.int16), -1, 0)
     selected = ((red > 95) & (green > 40) & (blue > 20)
                 & (rgb.max(axis=2).astype(np.int16)
@@ -71,25 +72,17 @@ def segment_face(rgb):
 
     # Цельная область лица/шеи: глаза и очки внутри контура сохраняются.
     # Это регион по цвету кожи, а не маска только чистых пикселей кожи.
-    padded = cv2.copyMakeBorder(closed, 1, 1, 1, 1, cv2.BORDER_CONSTANT, value=0)
-    flooded = padded.copy()
-    cv2.floodFill(flooded, None, (0, 0), 255)
-    clean = closed | cv2.bitwise_not(flooded)[1:-1, 1:-1]
+    clean = fill_holes(closed)
     return {"rgb_corrected_raw": corrected, "bright_raw": bright,
             "normalized_raw": normalized, "combined_raw": raw, "opened": opened,
             "largest": largest, "closed": closed, "clean": clean}
 
 
 def main():
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    os.makedirs("results", exist_ok=True)
-    original = cv2.imread("images/portrait.jpg")
-    if original is None:
-        raise FileNotFoundError("Не удалось прочитать images/portrait.jpg")
+    prepare_environment(__file__)
+    original = load_image("images/portrait.jpg")
     height, width = original.shape[:2]
-    scale = min(1.0, 640 / max(height, width))
-    image = cv2.resize(original, (round(width * scale), round(height * scale)),
-                       interpolation=cv2.INTER_AREA)
+    image = resize_image(original)
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     source_mask = skin_rgb(rgb)
     stages = segment_face(rgb)
@@ -169,12 +162,9 @@ def main():
         "limitations": "Цветовые правила не дают точного семантического контура кожи.",
         "reference": "https://citeseerx.ist.psu.edu/document?doi=05cdcec7ff0d97049b7502cfbeb3dc747f97dddd&repid=rep1&type=pdf"
     }
-    with open("results/task2_stats.json", "w", encoding="utf-8") as file:
-        json.dump(statistics, file, ensure_ascii=False, indent=2)
+    save_json("results/task2_stats.json", statistics)
     print(json.dumps(statistics, ensure_ascii=False, indent=2))
-    if plt.get_backend().lower() != "agg":
-        plt.show()
-    plt.close("all")
+    finish_plots()
 
 
 if __name__ == "__main__":
