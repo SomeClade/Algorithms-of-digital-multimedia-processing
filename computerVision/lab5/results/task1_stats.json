@@ -1,0 +1,25 @@
+{
+  "source": "portrait.jpg",
+  "original_size": [
+    960,
+    1280
+  ],
+  "processed_size": [
+    480,
+    640
+  ],
+  "double_threshold": {
+    "lower_strict": 110,
+    "upper_inclusive": 200
+  },
+  "otsu_gray": 125.0,
+  "otsu_rgb": [
+    124.0,
+    125.0,
+    127.0
+  ],
+  "adaptive_window": 31,
+  "adaptive_C": 5,
+  "rgb_combination": "AND",
+  "niblack_k": -0.2
+}

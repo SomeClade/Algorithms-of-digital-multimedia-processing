@@ -1,0 +1,8 @@
+﻿method,white_fraction
+double,0.249323
+otsu,0.351344
+adaptive_mean,0.634294
+adaptive_gaussian,0.699492
+upper,0.34652
+lower,0.65348
+niblack,0.583223

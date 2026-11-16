@@ -1,0 +1,55 @@
+{
+  "source": "images/textures.jpg",
+  "source_size": [
+    960,
+    641
+  ],
+  "processed_size": [
+    640,
+    427
+  ],
+  "window": 9,
+  "local_entropy_bins": 32,
+  "regional_histogram_bins": 256,
+  "otsu_normalized_threshold": 106.0,
+  "entropy_min": 0.0,
+  "entropy_max": 4.0336408615112305,
+  "min_region_area": 1366,
+  "closing_ellipse": [
+    9,
+    9
+  ],
+  "class_assignment": "Higher local variation: coarse field; lower: smooth sky. Relative interpretation for this photograph, not universal trained classification.",
+  "regions": [
+    {
+      "class": "smooth_sky",
+      "pixels": 191496,
+      "fraction": 0.700731850117096,
+      "mean": 175.57752120148723,
+      "std": 24.070394449340444,
+      "smoothness": 0.008831481291366128,
+      "third_moment": -3368.96066996604,
+      "third_moment_normalized": -0.00020317740054525272,
+      "uniformity": 0.011669421848061148,
+      "entropy": 6.52744588653622,
+      "local_entropy_mean": 0.5927799940109253,
+      "local_std_mean": 2.0875747203826904,
+      "local_range_mean": 7.899689810753228
+    },
+    {
+      "class": "coarse_field",
+      "pixels": 81784,
+      "fraction": 0.29926814988290396,
+      "mean": 110.80893573315073,
+      "std": 23.964948305955694,
+      "smoothness": 0.008754949872565643,
+      "third_moment": 19353.568358995064,
+      "third_moment_normalized": 0.0011671871819432986,
+      "uniformity": 0.016696830983553693,
+      "entropy": 6.321623945880092,
+      "local_entropy_mean": 2.779430866241455,
+      "local_std_mean": 17.043848037719727,
+      "local_range_mean": 80.74870390296391
+    }
+  ]
+}

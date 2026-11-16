@@ -1,0 +1,58 @@
+{
+  "method": "K-means on CIE Lab a*b*; L* is excluded from clustering",
+  "k": 4,
+  "seed": 42,
+  "attempts": 10,
+  "initialization": "KMEANS_PP_CENTERS",
+  "criteria": {
+    "max_iterations": 100,
+    "epsilon": 0.2
+  },
+  "label_order": "lexicographic ascending a_star, then b_star",
+  "source_shape_hw": [
+    720,
+    960
+  ],
+  "working_shape_hw": [
+    480,
+    640
+  ],
+  "max_dimension": 640,
+  "resize_scale": 0.6666666666666666,
+  "resize_interpolation": "INTER_AREA",
+  "cropped": false,
+  "lab_dtype": "float32",
+  "lab_min": [
+    0.0,
+    -25.0625,
+    -60.96875
+  ],
+  "lab_max": [
+    100.0,
+    59.1875,
+    94.46875
+  ],
+  "compactness_sse": 5490983.045556436,
+  "mean_squared_ab_distance": 17.87429376808736,
+  "cluster_pixels": [
+    20132,
+    260364,
+    18513,
+    8191
+  ],
+  "cluster_shares": [
+    0.06553385416666667,
+    0.8475390625,
+    0.060263671875,
+    0.026663411458333335
+  ],
+  "source": {
+    "title": "Rubik's Cube",
+    "author": "William Warby",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Rubiks_Cube_(11913013374).jpg",
+    "original_page": "https://www.flickr.com/photos/wwarby/11913013374/",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "input": "Unaltered Wikimedia 960px JPEG thumbnail; resized here to 640px width"
+  }
+}

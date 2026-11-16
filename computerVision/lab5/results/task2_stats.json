@@ -1,0 +1,52 @@
+{
+  "source": "images/portrait.jpg",
+  "source_size": {
+    "width": 960,
+    "height": 1280
+  },
+  "processed_size": {
+    "width": 480,
+    "height": 640
+  },
+  "selected_criterion": "corrected_RGB_OR_bright_OR_normalized",
+  "ordinary_rgb_blue_rule": "B > 20; source typo B < 20 retained separately",
+  "opening_ellipse": [
+    5,
+    5
+  ],
+  "closing_ellipse": [
+    5,
+    5
+  ],
+  "selection_order": "opening -> largest component -> closing -> fill holes",
+  "connectivity": 8,
+  "kept_components": 1,
+  "pixel_count": 307200,
+  "skin_pixels": {
+    "rgb_raw": 0,
+    "rgb_corrected_raw": 35175,
+    "bright_raw": 9838,
+    "normalized_raw": 30288,
+    "combined_raw": 52058,
+    "opened": 44252,
+    "largest": 38274,
+    "closed": 38967,
+    "clean": 39222
+  },
+  "skin_percent": {
+    "rgb_raw": 0.0,
+    "rgb_corrected_raw": 11.45,
+    "bright_raw": 3.202,
+    "normalized_raw": 9.859,
+    "combined_raw": 16.946,
+    "opened": 14.405,
+    "largest": 12.459,
+    "closed": 12.685,
+    "clean": 12.768
+  },
+  "removed_disconnected_pixels": 5978,
+  "filled_interior_pixels": 255,
+  "output_meaning": "Face/neck region based on skin color, including eyes/glasses/lips inside.",
+  "limitations": "Цветовые правила не дают точного семантического контура кожи.",
+  "reference": "https://citeseerx.ist.psu.edu/document?doi=05cdcec7ff0d97049b7502cfbeb3dc747f97dddd&repid=rep1&type=pdf"
+}
